@@ -11,11 +11,19 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await login(email, password);
-    if (response.token) {
-      localStorage.setItem('token', response.token);
-      router.push('/');
-    } else {
+    try {
+      const response = await login(email, password);
+      console.log('Login response:', response);
+
+      if (response.access_token) {
+        localStorage.setItem('token', response.access_token);
+        console.log('Token stored:', localStorage.getItem('token')); // Adicione esta linha para verificar o armazenamento
+        router.push('/home_auth');
+      } else {
+        alert('Login failed');
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
       alert('Login failed');
     }
   };
@@ -46,7 +54,7 @@ export default function LoginForm() {
         </div>
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>
-      <label>Não possui login? <a href="/registrer">Registra-se</a></label>
+      <label>Não possui login? <a href="/registrer">Registre-se</a></label>
     </div>
   );
 }

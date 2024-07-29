@@ -1,4 +1,5 @@
 export async function login(email: string, password: string) {
+  try {
     const res = await fetch('http://127.0.0.1:8000/api/auth/login', {
       method: 'POST',
       headers: {
@@ -6,13 +7,25 @@ export async function login(email: string, password: string) {
       },
       body: JSON.stringify({ email, password }),
     });
-  
+
+    console.log('Response status:', res.status);
+    console.log('Response headers:', res.headers);
+
     if (!res.ok) {
+      const errorData = await res.json();
+      console.log('Error response data:', errorData);
       throw new Error('Failed to log in');
     }
-  
-    return await res.json();
+
+    const data = await res.json();
+    console.log('Response data:', data);
+
+    return data;
+  } catch (error) {
+    console.error('Login error:', error);
+    throw error;
   }
+}
   
   export async function register(name: string, email: string, password: string) {
     const res = await fetch('http://127.0.0.1:8000/api/users', {
