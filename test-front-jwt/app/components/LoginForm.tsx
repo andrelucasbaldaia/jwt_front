@@ -17,7 +17,7 @@ export default function LoginForm() {
 
       if (response.access_token) {
         localStorage.setItem('token', response.access_token);
-        console.log('Token stored:', localStorage.getItem('token')); // Adicione esta linha para verificar o armazenamento
+        console.log('Token stored:', localStorage.getItem('token')); 
         router.push('/home_auth');
       } else {
         alert('Login failed');
